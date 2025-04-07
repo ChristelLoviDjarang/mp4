@@ -16,7 +16,7 @@ export function ChatBox({ onSendMessage, loading }) {
       position: 'absolute',
       bottom: '80px', // Position above voice controls
       width: '300px',
-      backgroundColor: 'rgba(255, 255, 255, 0.8)',
+      backgroundColor: 'rgba(0, 24, 209, 0.8)',
       borderRadius: '10px',
       padding: '10px',
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',

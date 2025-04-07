@@ -20,7 +20,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --background-image-1: url('src/images/mp1.jpeg');
+  --background-image-1: url('../public/images/mp1.jpeg');
   --background-image-2: url('src/images/bg9.jpg');
   --background-image-3: url('src/images/bg8.jpg');
   --current-background: var(--background-image-1);

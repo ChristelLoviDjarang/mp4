@@ -6,7 +6,7 @@ import Sidebar from './components/Sidebar/Sidebar';
 import './App.css';
 import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
 import PageAdmin from './components/PageAdmin/pageAdmin'; 
-import manadoPostLogo from './images/mpid.png';
+import manadoPostLogo from '../public/images/mpid.png';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
