@@ -35,6 +35,7 @@ export function ChatBox({ onSendMessage, loading }) {
             border: '1px solid #ccc',
             marginRight: '8px',
             fontSize: '14px',
+            
           }}
         />
         <button
@@ -42,7 +43,7 @@ export function ChatBox({ onSendMessage, loading }) {
           disabled={loading || !message.trim()}
           style={{
             backgroundColor: '#4a90e2',
-            color: 'white',
+            color: 'black',
             border: 'none',
             borderRadius: '50%',
             width: '36px',

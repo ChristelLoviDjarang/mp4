@@ -33,11 +33,11 @@ const GuidelinesModal = ({ isOpen, onClose }) => {
         </span>
         <h2>How to Use This System</h2>
         <div className="guidelines-content">
-          <p>Welcome to the UNKLAB Virtual Assistant System! Here's a quick guide on how to interact with me:</p>
+          <p>Welcome to the Manado Post Virtual Assistant System! Here's a quick guide on how to interact with me:</p>
           <ul>
             <li><strong>Voice Input:</strong> Click the microphone button to start speaking. I will process your request.</li>
             <li><strong>Audio Output:</strong> I will provide answers and optionally with voice.</li>
-            <li><strong>Ask questions:</strong> ask question about Universitas Klabat (UNKLAB) or about me.</li>
+            <li><strong>Ask questions:</strong> ask question about Manado Post or about me.</li>
             <li><strong>Bug Report:</strong> If you find any bugs or issues, please contact the developer using the "Contact Developer" button.</li>
           </ul>
            <p>Thank you for using this system!</p>

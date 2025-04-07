@@ -536,13 +536,18 @@ export function Avatar() {
                     isChatOpen={isChatOpen}
                 />
                 
-                {/* Chat input box */}
                 {isChatOpen && (
-                    <ChatBox 
-                        onSendMessage={handleSendMessage}
-                        loading={loading}
-                    />
+                <div style={{
+                    position: 'absolute',
+                    top: '60px', // Sesuaikan ini untuk tinggi bar
+                    right: '20px', // Margin dari kanan
+                    zIndex: 1000
+                }}>
+                    <ChatBox onSendMessage={handleSendMessage} conversation={conversation} />
+                </div>
                 )}
+
+            
             </Html>
         </Suspense>
     );
