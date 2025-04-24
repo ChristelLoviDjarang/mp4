@@ -317,9 +317,42 @@ export function Avatar({ onChatToggle }) {
     }, [addToConversation, processAudioFile, setAudioUrl, setError]);
 
     // Handle text message submission
-    const handleSendMessage = (message) => {
-        addToConversation('user', message);
-        sendQueryToBackend(message);
+    const handleSendMessage = async (message) => {
+        try {
+            // Add user message to conversation immediately
+            const newMessage = { role: 'user', message };
+            setConversation(prev => [...prev, newMessage]);
+            
+            // Show loading state
+            setLoading(true);
+
+            // Send message to backend
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+            const response = await axios.post(`${backendUrl}/api/query`, {
+                query: message
+            });
+
+            // Get the response from backend
+            const answer = response.data.answer || 'I apologize, but I am unable to provide a response at the moment.';
+            
+            // Add avatar's response to conversation
+            setConversation(prev => [...prev, { role: 'assistant', message: answer }]);
+
+            // Process audio if available
+            if (response.data.audio_file) {
+                processAudioFile(`${backendUrl}/api/audio/${response.data.audio_file}`);
+            }
+
+        } catch (error) {
+            console.error('Error sending message:', error);
+            // Add error message to conversation
+            setConversation(prev => [...prev, { 
+                role: 'assistant', 
+                message: 'Sorry, I encountered an error processing your message. Please try again.' 
+            }]);
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Speech recognition handler
@@ -1183,12 +1216,13 @@ export function Avatar({ onChatToggle }) {
 
                         {/* Text box */}
                         {isChatOpen && (
-                            <ConversationDisplay onSendMessage={handleSendMessage} conversation={conversation} />
+                            <ConversationDisplay 
+                                conversation={conversation}
+                                isChatOpen={isChatOpen}
+                                onSendMessage={handleSendMessage}
+                                isLoading={loading}
+                            />
                         )}
-                        <ConversationDisplay 
-                            conversation={conversation}
-                            isChatOpen={isChatOpen}
-                        />
                     </Html>
                 </Suspense>
             )}
