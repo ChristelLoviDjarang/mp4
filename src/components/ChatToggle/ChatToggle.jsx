@@ -6,14 +6,14 @@ export function ChatToggle({ isChatOpen, toggleChat }) {
       onClick={toggleChat}
       style={{
         position: 'absolute',
-        bottom: '20px',
-        right: '20px',
+        bottom: '450px',
+        right: '-625px',
         backgroundColor: '#4a90e2',
         color: 'white',
         border: 'none',
         borderRadius: '50%',
-        width: '50px',
-        height: '50px',
+        width: '55px',
+        height: '55px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

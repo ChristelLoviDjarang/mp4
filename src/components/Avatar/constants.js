@@ -1,5 +1,6 @@
 // Viseme mapping for lip sync
 export const VISEME_MAP = {
+    // Original mappings
     A: "viseme_PP",
     B: "viseme_kk",
     C: "viseme_I",
@@ -8,7 +9,32 @@ export const VISEME_MAP = {
     F: "viseme_U",
     G: "viseme_FF",
     H: "viseme_TH",
-    X: "viseme_PP"
+    X: "viseme_PP",
+    
+    // Additional mappings that might exist in the model
+    // Standard visemes
+    sil: "viseme_sil",
+    PP: "viseme_PP",
+    FF: "viseme_FF",
+    TH: "viseme_TH",
+    DD: "viseme_DD",
+    kk: "viseme_kk",
+    CH: "viseme_CH",
+    SS: "viseme_SS",
+    nn: "viseme_nn",
+    RR: "viseme_RR",
+    aa: "viseme_aa",
+    E: "viseme_E",
+    I: "viseme_I",
+    O: "viseme_O",
+    U: "viseme_U",
+    
+    // Try standard blendshape names too
+    jawOpen: "jawOpen",
+    mouthOpen: "mouthOpen",
+    mouthWide: "mouthWide",
+    mouthClose: "mouthClose",
+    mouthSmile: "mouthSmile"
 };
 
 // Predefined facial expressions
