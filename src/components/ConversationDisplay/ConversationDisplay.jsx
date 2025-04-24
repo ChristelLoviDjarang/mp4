@@ -5,8 +5,9 @@ import React, { useEffect, useRef, useState } from 'react';
  * @param {Array} conversation - Array of message objects with 'role' and 'message' properties
  * @param {boolean} isChatOpen - Whether the chat is currently open
  * @param {Function} onSendMessage - Function to handle sending new messages
+ * @param {boolean} isLoading - Whether the chat is currently loading a response
  */
-export function ConversationDisplay({ conversation = [], isChatOpen = false, onSendMessage = () => {} }) {
+export function ConversationDisplay({ conversation = [], isChatOpen = false, onSendMessage = () => {}, isLoading = false }) {
   // State for the input field
   const [inputMessage, setInputMessage] = useState('');
   
@@ -31,30 +32,25 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (inputMessage.trim()) {
-      // Check if onSendMessage is a function before calling it
-      if (typeof onSendMessage === 'function') {
-        onSendMessage({ role: 'user', message: inputMessage });
-      } else {
-        console.warn('onSendMessage prop is not a function');
-      }
-      setInputMessage(''); // Clear input after sending
+      onSendMessage(inputMessage);
+      setInputMessage('');
     }
   };
 
   return (
     <div className="sidebar-conversation" style={{
       position: 'fixed',
-      bottom: '20px',
-      right: '20px',
+      bottom: '-10px',
+      left: '325px',
       width: '355px',
-      height: '70vh',
-      backgroundColor: 'rgba(12, 32, 67, 0.95)',
-      display: isChatOpen ? 'flex' : 'none',
+      height: '79vh',
+      backgroundColor: '#0c2043',
+      display: 'flex',
       flexDirection: 'column',
-      zIndex: 1000,
-      boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)',
-      borderRadius: '12px',
-      border: '1px solid rgba(255, 255, 255, 0.2)',
+      zIndex: 999,
+      boxShadow: '2px 0 10px rgba(0, 0, 0, 0.2)',
+      backdropFilter: 'blur(10px)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
     }}>
       {/* Header section */}
       <div style={{
@@ -64,9 +60,6 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
         fontSize: '18px',
         fontWeight: 'bold',
         textAlign: 'center',
-        borderTopLeftRadius: '12px',
-        borderTopRightRadius: '12px',
-        backgroundColor: 'rgba(26, 48, 86, 0.95)',
       }}>
         Chat with Avatar
       </div>
@@ -80,7 +73,6 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
           padding: '15px',
           display: 'flex',
           flexDirection: 'column-reverse',
-          backgroundColor: 'rgba(12, 32, 67, 0.95)',
         }}
       >
         <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -92,8 +84,7 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
               color: '#e0e0e0', 
               padding: '30px 0', 
               fontSize: '16px',
-              marginTop: 'auto',
-              opacity: 0.7,
+              marginTop: 'auto' 
             }}>
               Start a conversation with the avatar
             </div>
@@ -103,21 +94,24 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
                 key={index}
                 style={{
                   marginBottom: '12px',
-                  padding: '12px 16px',
+                  padding: '10px 14px',
                   borderRadius: '18px',
                   maxWidth: '85%',
                   wordWrap: 'break-word',
                   backgroundColor: item.role === 'user' ? '#4CAF50' : '#e0e0e0',
                   color: item.role === 'user' ? 'white' : '#333',
                   alignSelf: item.role === 'user' ? 'flex-end' : 'flex-start',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-                  animation: 'fadeIn 0.3s ease-in-out',
+                  marginLeft: item.role === 'user' ? 'auto' : '0',
+                  display: 'block',
+                  float: item.role === 'user' ? 'right' : 'left',
+                  clear: 'both',
+                  boxShadow: '0 1px 2px rgba(0, 0, 0, 0.1)',
                 }}
               >
                 <div style={{ 
                   fontSize: '14px', 
-                  marginBottom: '4px',
-                  color: item.role === 'user' ? 'rgba(255, 255, 255, 0.8)' : '#666',
+                  color: item.role === 'user' ? '#e0e0e0' : '#555',
+                  marginBottom: '4px'
                 }}>
                   {item.role === 'user' ? 'You' : 'Avatar'}
                 </div>
@@ -145,6 +139,7 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           placeholder="Type your message..."
+          disabled={isLoading}
           style={{
             flex: 1,
             padding: '12px',
@@ -158,10 +153,10 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
         />
         <button 
           type="submit"
-          disabled={!inputMessage.trim()}  // Disable if message is empty
+          disabled={!inputMessage.trim() || isLoading}
           style={{
             marginLeft: '10px',
-            backgroundColor: inputMessage.trim() ? '#4CAF50' : '#45a049',
+            backgroundColor: inputMessage.trim() && !isLoading ? '#4CAF50' : '#45a049',
             color: 'white',
             border: 'none',
             borderRadius: '50%',
@@ -170,15 +165,19 @@ export function ConversationDisplay({ conversation = [], isChatOpen = false, onS
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            cursor: inputMessage.trim() ? 'pointer' : 'not-allowed',
+            cursor: inputMessage.trim() && !isLoading ? 'pointer' : 'not-allowed',
             transition: 'all 0.2s ease',
-            opacity: inputMessage.trim() ? 1 : 0.7,
+            opacity: inputMessage.trim() && !isLoading ? 1 : 0.7,
           }}
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
+          {isLoading ? (
+            <div style={{ width: '20px', height: '20px', border: '2px solid #fff', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+          ) : (
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          )}
         </button>
       </form>
     </div>
