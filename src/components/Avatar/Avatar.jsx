@@ -293,7 +293,7 @@ export function Avatar({ onChatToggle }) {
         setError('');
         setAnswerText('');
         try {
-            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://127.0.0.1:5000';
+            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://klaris.my.id/backend2';
             const response = await axios.post(`${backendUrl}/api/query`, {
                 query,
                 audio: audioBlob
